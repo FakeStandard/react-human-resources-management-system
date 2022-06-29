@@ -1,23 +1,46 @@
+import { Box, createTheme, CssBaseline, ThemeProvider } from '@mui/material';
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import Dashboard from './pages/Dashboard';
-import Login from './pages/Login';
-import Page404 from './pages/Page404';
-import Register from './pages/Register';
-import User from './pages/User';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { routes } from './routes';
+
+// set up custom theme(optional)
+
+// define theme
+const theme = createTheme({
+  palette: {
+    primary: { // 主要色調
+      light: "#63b8ff",
+      main: "#FFF5B0",
+      dark: "#005db0",
+      contrastText: "#000"
+    },
+    secondary: { // 次要色調
+      main: '#4db6ac',
+      light: '#82e9de',
+      dark: '#00867d',
+      contrastText: '#000'
+    }
+  }
+})
 
 function App() {
   return (
-    <div className="App">
-      <h1>App</h1>
-      <Routes>
-        <Route path='/' element={<Dashboard />} />
-        <Route path='/user' element={<User />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/register' element={<Register />} />
-        <Route path='/page404' element={<Page404 />} />
-      </Routes>
-    </div>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Box height='100vh' display='flex' flexDirection='column'>
+        <h1>App</h1>
+        <Router>
+          {/* navigation */}
+          <Routes>
+            {routes.map((r) => (
+              <Route key={r.key} path={r.path} element={<r.component />} />
+            ))}
+          </Routes>
+          {/* footer */}
+        </Router >
+      </Box>
+    </ThemeProvider>
+
   );
 }
 
